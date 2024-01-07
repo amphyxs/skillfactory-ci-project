@@ -1,24 +1,13 @@
 pipeline {
-  agent any
-  
-  stages {
-    stage('Build') {
-      steps {
-        sh 'docker build -t my-nginx .'
-      }
-    }
-    
-    stage('Run') {
-      steps {
-        sh 'docker run -d -p 80:80 --name my-nginx-container my-nginx'
-      }
-    }
+  agent {
+      docker { image 'node:20.10.0-alpine3.19' }
   }
-  
-  post {
-    always {
-      sh 'docker stop my-nginx-container'
-      sh 'docker rm my-nginx-container'
-    }
+
+  stages {
+      stage('Test') {
+          steps {
+              sh 'node --version'
+          }
+      }
   }
 }
