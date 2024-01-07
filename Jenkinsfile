@@ -34,13 +34,13 @@ pipeline {
           }
         }
       }
-    }
-  }
 
-  post {
-    always {
-      sh 'docker stop my-nginx-container'
-      sh 'docker rm my-nginx-container'
+      post {
+        always {
+          sh 'docker stop my-nginx-container'
+          sh 'docker rm my-nginx-container'
+        }
+      }
     }
   }
 }
