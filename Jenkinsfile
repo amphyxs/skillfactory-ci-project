@@ -5,6 +5,10 @@ pipeline {
   
   stages {
     stage('Build') {
+      when {
+        changeset 'index.html'
+      }
+
       steps {
         sh 'docker build -t my-nginx .'
       }
