@@ -40,14 +40,13 @@ pipeline {
           sh 'docker stop my-nginx-container'
           sh 'docker rm my-nginx-container'
           script {
-            emailext subject: '$DEFAULT_SUBJECT',
-              body: '$DEFAULT_CONTENT',
+            emailext subject: 'test',
+              body: 'test',
               recipientProviders: [
                 [$class: 'CulpritsRecipientProvider'],
                 [$class: 'DevelopersRecipientProvider'],
                 [$class: 'RequesterRecipientProvider'] 
               ], 
-              replyTo: '$DEFAULT_REPLYTO',
               to: 'drchipycat@gmail.com'
           }
         }
