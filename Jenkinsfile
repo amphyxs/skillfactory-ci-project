@@ -12,15 +12,8 @@ pipeline {
     
     stage('Run') {
       steps {
-        sh 'docker run -d -p 80:80 --name my-nginx-container my-nginx'
+        sh 'docker run -d -p 9889:80 --name my-nginx-container my-nginx'
       }
-    }
-  }
-  
-  post {
-    always {
-      sh 'docker stop my-nginx-container'
-      sh 'docker rm my-nginx-container'
     }
   }
 }
