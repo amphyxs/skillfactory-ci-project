@@ -39,18 +39,8 @@ pipeline {
         always {
           sh 'docker stop my-nginx-container'
           sh 'docker rm my-nginx-container'
-          script {
-            emailext subject: 'test',
-              body: 'test',
-              recipientProviders: [
-                [$class: 'CulpritsRecipientProvider'],
-                [$class: 'DevelopersRecipientProvider'],
-                [$class: 'RequesterRecipientProvider'] 
-              ], 
-              to: 'drchipycat@gmail.com'
-          }
+          telegramSend 'Build ended'
         }
-
       }
     }
   }
