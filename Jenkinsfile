@@ -39,9 +39,28 @@ pipeline {
         always {
           sh 'docker stop my-nginx-container'
           sh 'docker rm my-nginx-container'
+        }
+
+        success {
           withCredentials([string(credentialsId: 'bot-token', variable: 'TOKEN'), string(credentialsId: 'chat-id', variable: 'CHAT_ID')]) {
             sh  ("""
                 curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='Build success'
+            """)
+          }
+        }
+
+        aborted {
+          withCredentials([string(credentialsId: 'bot-token', variable: 'TOKEN'), string(credentialsId: 'chat-id', variable: 'CHAT_ID')]) {
+            sh  ("""
+                curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='Build aborted'
+            """)
+          }
+        }
+
+        failure {
+          withCredentials([string(credentialsId: 'bot-token', variable: 'TOKEN'), string(credentialsId: 'chat-id', variable: 'CHAT_ID')]) {
+            sh  ("""
+                curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='Build failed'
             """)
           }
         }
